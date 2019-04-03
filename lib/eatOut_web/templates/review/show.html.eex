@@ -1,0 +1,28 @@
+<h1>Show Review</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @review.name %>
+  </li>
+
+  <li>
+    <strong>Comment:</strong>
+    <%= @review.comment %>
+  </li>
+
+  <li>
+    <strong>Rating:</strong>
+    <%= @review.rating %>
+  </li>
+
+  <li>
+    <strong>Restaurant:</strong>
+    <%= @review.restaurant_id %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.review_path(@conn, :edit, @review) %></span>
+<span><%= link "Back", to: Routes.review_path(@conn, :index) %></span>
