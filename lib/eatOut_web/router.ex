@@ -24,7 +24,7 @@ defmodule EatOutWeb.Router do
     resources "/reviews", ReviewController
     resources "/chats", ChatController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
-
+    resources "/friends", FriendController
 
   end
 

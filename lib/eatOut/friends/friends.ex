@@ -7,14 +7,53 @@ defmodule EatOut.Friends do
   alias EatOut.Repo
 
   alias EatOut.Friends.Friend
+  alias EatOut.Users.User
 
   @doc """
   Returns the list of friends.
+
+  ## Examples
+
+      iex> list_friends()
+      [%Friend{}, ...]
 
   """
   def list_friends do
     Repo.all(Friend)
   end
+
+  @doc """
+  List users that are not friends
+
+  Selecting users that are not friends with the given id
+
+  """
+  def list_not_friends(id) do
+    # Find the friend of this user
+    query1 = from f in Friend,
+                where: f.friender_id == ^id or f.friendee_id == ^id,
+                select: {f.friender_id, f.friendee_id}
+    friends = Repo.all(query1)    
+
+    # List of tuple -> into list 
+    # Make a list of user id that are not friends with given id
+    loi = List.foldl(friends, [], fn x, acc -> 
+      if elem(x, 0) != id do 
+        [elem(x, 0)] ++ acc
+      end
+      if elem(x, 1) != id do
+        [elem(x, 1)] ++ acc
+      end
+    end)
+    loi = loi ++ [id]
+
+    # Find the users that are not in friends
+    query2 = from u in User,
+                where: not u.id in ^loi
+    Repo.all(query2)
+  end
+
+
 
   @doc """
   Gets a single friend.
@@ -30,15 +69,7 @@ defmodule EatOut.Friends do
       ** (Ecto.NoResultsError)
 
   """
-  def get_all_friends_of(id) do
-    query = from f in Friend,
-        where: f.friender_id == ^id or f.friendee_id == ^id
-    Repo.all(query)
-  end
-
-  def get_friend_relationship(id) do
-    Repo.get!(Friend, id)
-  end
+  def get_friend!(id), do: Repo.get!(Friend, id)
 
   @doc """
   Creates a friend.
@@ -52,8 +83,7 @@ defmodule EatOut.Friends do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_friend(attrs) do
-    IO.inspect(attrs)
+  def create_friend(attrs \\ %{}) do
     %Friend{}
     |> Friend.changeset(attrs)
     |> Repo.insert()

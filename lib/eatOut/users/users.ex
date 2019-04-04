@@ -22,6 +22,16 @@ defmodule EatOut.Users do
   end
 
   @doc """
+  List users except the given one
+
+  """
+  def list_others(id) do
+    query  = from u in User,
+                where: u.id != ^id
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the User does not exist.

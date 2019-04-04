@@ -20,3 +20,13 @@ import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery; // Bootstrap requires a global "$" object.
 import "bootstrap";
 
+// $(function () {
+	
+// 	$("#").click((ev) => {
+
+
+// 	});
+
+// })
+
+
