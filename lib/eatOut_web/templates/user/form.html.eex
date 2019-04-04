@@ -17,6 +17,7 @@
     <%= error_tag f, :email %>
   </div>
 
+<%# TODO: Verify password to set a new one?%>
   <div class="form-group">
     <%= label f, :password %>
     <%= password_input f, :pw_hash %>

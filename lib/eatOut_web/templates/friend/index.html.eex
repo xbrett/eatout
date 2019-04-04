@@ -1,0 +1,92 @@
+<h1>My Friends</h1>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Me</th>
+      <th>Friend</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for friend <- @friends do %>
+  <!-- show my friends only if they accept the request -->
+  <%= if friend.confirmed do %>
+    <tr>
+      <td><%= friend.friender_id %></td>
+      <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
+      <td>
+        <%= link "Unfriend", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+      </td>
+    </tr>
+  <% end %>  
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Friend", to: Routes.friend_path(@conn, :new), class: "btn btn-primary" %></span>
+
+
+<h1>Sent Requests</h1>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Me</th>
+      <th>Friend</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for friend <- @friends do %>
+  <!-- show my sent friend requests -->
+  <%= if !friend.confirmed && friend.friender_id == @current_user.id do %>
+    <tr>
+      <td><%= friend.friender_id %></td>
+      <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
+      <td>
+        <%= link "Cancel Request", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+      </td>
+    </tr>
+  <% end %>  
+<% end %>
+  </tbody>
+</table>
+
+
+<h1>Pending Requests</h1>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Me</th>
+      <th>Friend</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for friend <- @friends do %>
+  <!-- show my sent friend requests -->
+  <%= if !friend.confirmed && friend.friender_id == @current_user.id do %>
+    <tr>
+      <td><%= friend.friender_id %></td>
+      <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
+      <td>
+
+        <%= form_for EatOut.Friends.Friend.changeset(friend, %{"confirmed" => "false", "friendee_id" => friend.friendee_id, "friender_id" => friend.friender_id}), Routes.friend_path(@conn, :update, friend), fn f -> %>
+          <%= text_input f, :friender_id, value: friend.friender_id, class: "d-none" %>
+          <%= text_input f, :friendee_id, value: friend.friendee_id, class: "d-none" %>
+          <%= checkbox f, :confirmed, value: true, class: "d-none" %>          
+          <%= submit "Accept", class: "btn btn-primary" %>
+
+          <%= link "Decline", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+        <% end %>
+
+        
+      </td>
+    </tr>
+  <% end %>  
+<% end %>
+  </tbody>
+</table>
+

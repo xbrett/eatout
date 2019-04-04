@@ -46,6 +46,7 @@ defmodule EatOut.MixProject do
       {:comeonin, "~> 4.1"},
       {:argon2_elixir, "~> 1.3"},
       {:httpoison, "~> 1.5"}
+
     ]
   end
 
