@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-12">
+    <table>
+      <thead>
+
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= if @restaurants do %>
+                <%= @restaurants %>
+              <% else %>
+                No restaurants.
+              <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

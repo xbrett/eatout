@@ -20,3 +20,31 @@ import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery; // Bootstrap requires a global "$" object.
 import "bootstrap";
 
+window.onload = (ev) => {
+  getLocation();
+}
+
+function createCookie(cookieName, cookieValue) {
+  document.cookie = cookieName + "=" + cookieValue + ";";
+}
+
+function getLocation() {
+  console.log(document.cookie);
+  if (document.cookie.includes("long=") && document.cookie.includes("lat=")) {
+    console.log("case1");
+    return
+  } else if (navigator.geolocation) {
+    console.log("case2");
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    console.log("no geolocator");
+    return null
+  }
+}
+
+function showPosition(position) {
+  createCookie("lat", "" + position.coords.latitude);
+  createCookie("long", "" + position.coords.longitude);
+  console.log(document.cookie);
+  location.reload();
+}

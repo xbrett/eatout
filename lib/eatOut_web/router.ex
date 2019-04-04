@@ -11,6 +11,13 @@ defmodule EatOutWeb.Router do
 
   end
 
+  pipeline :ajax do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug EatOutWeb.Plugs.FetchSession
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -19,13 +26,17 @@ defmodule EatOutWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/home", PageController, :home
+    get "/home", LocationController, :home
     resources "/users", UserController
     resources "/reviews", ReviewController
     resources "/chats", ChatController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
 
+  end
 
+  scope "/ajax", EatOutWeb do
+    pipe_through :ajax
+    post "/location", LocationController, :create
   end
 
   # Other scopes may use custom stacks.

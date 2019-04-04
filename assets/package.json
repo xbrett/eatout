@@ -6,6 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "ajax": "0.0.4",
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
     "phoenix": "file:../deps/phoenix",
