@@ -31,12 +31,8 @@ defmodule EatOutWeb.Router do
     resources "/reviews", ReviewController
     resources "/chats", ChatController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
-<<<<<<< HEAD
-
-  end
-=======
     resources "/friends", FriendController
->>>>>>> 4c304bfa070b63355cbe1dc6c1070ab656a0e9d9
+  end
 
   scope "/ajax", EatOutWeb do
     pipe_through :ajax

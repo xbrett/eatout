@@ -1,12 +1,5 @@
 <h1><%= @user.name %></h1>
 
-<!-- <%= gravatar(@user.email) %> -->
-
-<div class="form-group">
-	<%= file_input f, :avatar, class: "form-control" %>
-    <%= error_tag f, :avatar %>
-</div>
-
 <div>
   <strong>Email:</strong>
   <%= @user.email %>
