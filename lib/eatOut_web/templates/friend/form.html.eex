@@ -4,51 +4,24 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-
-<!-- For accepting/rejecting friend requests -->
-<%= if @friend do %>
-  <!-- Make this invisible later -->
-  <div class="form-group">
+  
+  <div class="form-group" style="display: none">
     <%= label f, :me %>
     <%= text_input f, :friender_id, value: @current_user.id %>
     <%= error_tag f, :friender_id %>
   </div>
 
-<!-- Make this invisible later -->
   <div class="form-group">
     <%= label f, :Person %>
     <%= select f, :friendee_id, Enum.map(EatOut.Users.list_others(@current_user.id), &{&1.email, &1.id}) %>
     <%= error_tag f, :friendee_id %>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" style="display: none">
     <%= label f, :Confirmed? %>
     <%= checkbox f, :confirmed %>
     <%= error_tag f, :confirmed %>
   </div>
-
-<% else %> <!-- For sending friend requests -->
-  <!-- Make this invisible later -->
-  <div class="form-group">
-    <%= label f, :me %>
-    <%= text_input f, :friender_id, value: @current_user.id %>
-    <%= error_tag f, :friender_id %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :Person %>
-    <%= select f, :friendee_id, Enum.map(EatOut.Friends.list_not_friends(@current_user.id), &{&1.email, &1.id}) %>
-    <%= error_tag f, :friendee_id %>
-  </div>
-
-<!-- Make this invisible later -->
-  <div class="form-group">
-    <%= label f, :Confirmed? %>
-    <%= checkbox f, :confirmed %>
-    <%= error_tag f, :confirmed %>
-  </div>
-
-<% end %>
 
   <div>
     <%= submit "Send Friend Request", class: "btn btn-primary" %>
