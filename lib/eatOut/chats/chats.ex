@@ -22,6 +22,20 @@ defmodule EatOut.Chats do
   end
 
   @doc """
+  Retrieves the messages between two given ppl
+
+  """
+  def get_msgs(p1_id, p2_id) do
+    query = from c in Chat,
+              where: (^p1_id == c.sender_id and ^p2_id == c.receiver_id) 
+                      or (^p2_id == c.sender_id and ^p1_id == c.receiver_id),
+              select: {c.sender_id, c.message},
+              order_by: c.inserted_at
+    cool = Repo.all(query)
+    IO.inspect(cool)
+  end
+
+  @doc """
   Gets a single chat.
 
   Raises `Ecto.NoResultsError` if the Chat does not exist.

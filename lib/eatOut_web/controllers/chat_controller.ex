@@ -4,9 +4,13 @@ defmodule EatOutWeb.ChatController do
   alias EatOut.Chats
   alias EatOut.Chats.Chat
 
-  def index(conn, _params) do
+  def index(conn, params) do
+    #IO.inspect(params)
+    chat_id = Map.fetch!(params, "chat_id")
+    receiver_id = Map.fetch!(params, "receiver_id")
+    #IO.inspect(chat_id)
     chats = Chats.list_chats()
-    render(conn, "index.html", chats: chats)
+    render(conn, "index.html", chats: chats, chat_id: chat_id, receiver_id: receiver_id)
   end
 
   def new(conn, _params) do

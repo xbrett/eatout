@@ -5,7 +5,7 @@ defmodule EatOut.Chats.Chat do
   schema "chats" do
     field :message, :string
     belongs_to :sender, EatOut.Users.User
-    belongs_to :reciever, EatOut.Users.User
+    belongs_to :receiver, EatOut.Users.User
 
     timestamps()
   end
@@ -13,8 +13,7 @@ defmodule EatOut.Chats.Chat do
   @doc false
   def changeset(chat, attrs) do
     chat
-    |> cast(attrs, [:message])
-    |> validate_required([:message])
-    |> unique_constraint(:no_duplicates, name: :no_dups, message: "Chat already exists")
+    |> cast(attrs, [:message, :sender_id, :receiver_id])
+    |> validate_required([:message, :sender_id, :receiver_id])
   end
 end

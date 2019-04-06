@@ -1,26 +1,26 @@
-<h1>Listing Chats</h1>
+<script>window.channelChatId = "<%= @chat_id %>"</script>
+<script>window.receiver_id = "<%= @receiver_id %>"</script>
+<script>window.sender_id = "<%= @current_user.id %>"</script>
 
-<table>
-  <thead>
-    <tr>
-      <th>Message</th>
+<ul id='msg-list' class='list-group' style='list-style: none; min-height:500px; padding: 10px;'>
+	<%= for chat <- @chats do %>
+		<%= if chat.sender_id == @current_user.id || chat.receiver_id == @current_user.id do %>
+			<% chat_sender = EatOut.Users.get_user!(chat.sender_id).name %>
+			<li><b><%= chat_sender %></b>: <%= chat.message%></li>
+		<% end %>	
+	<% end %>
+</ul>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for chat <- @chats do %>
-    <tr>
-      <td><%= chat.message %></td>
+<div class="row">
+  <div class="col-xs-3">
+    <strong><p id="name" style='padding: 5px'><%= @current_user.name %></p></strong>
+  </div>
+  <div class="form-group">
+    <input type="text" id="msg" class="form-control" placeholder="Your Message">
+  </div>
+</div>
 
-      <td>
-        <%= link "Show", to: Routes.chat_path(@conn, :show, chat) %>
-        <%= link "Edit", to: Routes.chat_path(@conn, :edit, chat) %>
-        <%= link "Delete", to: Routes.chat_path(@conn, :delete, chat), method: :delete, data: [confirm: "Are you sure?"] %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
 
-<span><%= link "New Chat", to: Routes.chat_path(@conn, :new) %></span>
+
+<!-- testing purposes -->
+

@@ -11,15 +11,29 @@
   <tbody>
 <%= for friend <- @friends do %>
   <!-- show my friends only if they accept the request -->
+  <% chat_id = friend.id %>
   <%= if friend.confirmed do %>
-    <tr>
-      <td><%= friend.friender_id %></td>
-      <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
-      <td>
-        <%= link "Unfriend", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
-      </td>
-    </tr>
-  <% end %>  
+    <%= if friend.friender_id == @current_user.id do %>
+      <tr>
+        <td><%= @current_user.id %></td>
+        <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
+        <td>
+          <%= link "Chat", to: Routes.chat_path(@conn, :index, chat_id: chat_id, receiver_id: friend.friendee_id), class: "btn btn-primary" %>
+          <%= link "Unfriend", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+    <%= if friend.friendee_id == @current_user.id do %>
+      <tr>
+        <td><%= @current_user.id %></td>
+        <td><%= EatOut.Users.get_user(friend.friender_id).name %></td>
+        <td>
+          <%= link "Chat", to: Routes.chat_path(@conn, :index, chat_id: chat_id, receiver_id: friend.friender_id), class: "btn btn-primary" %>
+          <%= link "Unfriend", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %> 
+  <% end %> 
 <% end %>
   </tbody>
 </table>
@@ -67,7 +81,7 @@
   <tbody>
 <%= for friend <- @friends do %>
   <!-- show my sent friend requests -->
-  <%= if !friend.confirmed && friend.friender_id == @current_user.id do %>
+  <%= if !friend.confirmed && friend.friendee_id == @current_user.id do %>
     <tr>
       <td><%= friend.friender_id %></td>
       <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
@@ -81,8 +95,6 @@
 
           <%= link "Decline", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
         <% end %>
-
-        
       </td>
     </tr>
   <% end %>  
