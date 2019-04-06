@@ -1,4 +1,16 @@
 /* This file is for your main application css. */
-
 $body-bg: rgb(158, 215, 241); // With scss, Bootstrap lets us override colors and stuff.
+$primary: rgb(85,139,165);
 @import "~bootstrap/scss/bootstrap";
+
+.yeet {
+  background-color: rgb(61,124,182);
+}
+
+.card-header {
+  background-color: rgb(115,181,195);
+}
+
+.navbar {
+  background-color: rgb(25,90,199);
+}

@@ -1,18 +1,34 @@
 <div class="row">
   <div class="col-12">
+  <p></p>
     <table>
       <thead>
 
       </thead>
       <tbody>
-        <tr>
-          <td><%= if @restaurants do %>
-                <%= @restaurants %>
-              <% else %>
-                No restaurants.
-              <% end %>
-          </td>
-        </tr>
+        <%= if @restaurants do %>
+          <%= for rest <- @restaurants do %>
+            <div class="container">
+              <div class="col-sm-6 mb-3">
+                <div class="card text-black yeet mb-3 ">
+                  <h5 class="card-header"><%= rest.name %></h5>
+                  <div class="card-body">
+                    <p class="card-text">Address: <%= rest.address %></p>
+                    <%= if rest.price do %>
+                      <p class="card-text">Price Range: <%= String.duplicate("$ ", rest.price) %></p>
+                    <% end %>
+                    <p>
+                    <%= link "New Review", to: Routes.review_path(@conn, :new, %{"rest_id": rest.id, "rest_name": rest.name}), class: "btn btn-primary" %>
+                    <%= link "See Reviews", to: Routes.review_path(@conn, :reviews, rest.id, rest.name), class: "btn btn-primary" %></p>
+                    <p class="card-text"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          No restaurants.
+        <% end %>
       </tbody>
     </table>
   </div>

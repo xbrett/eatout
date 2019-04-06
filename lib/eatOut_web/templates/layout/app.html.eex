@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-expand-sm navbar-light bg-primary">
+      <nav class="navbar navbar-expand-sm navbar-light ">
         <div class="col-4">
           <a class="navbar-brand"><strong>EatOut</strong></a>
         </div>
@@ -36,7 +36,7 @@
             <p class="my-3">
               User: <%= @current_user.email %>
               <span>
-                <%= link "Logout", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-secondary" %>
+                <%= link "Logout", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-primary" %>
               </span>
             </p>
           <% else %>

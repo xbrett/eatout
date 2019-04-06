@@ -1,32 +1,35 @@
-<h1>Listing Reviews</h1>
+<h1><%= @rest_name %></h1>
+<h2> -- Reviews -- </h2>
 
 <table>
   <thead>
-    <tr>
-      <th>Name</th>
-      <th>Comment</th>
-      <th>Rating</th>
-      <th>Restaurant</th>
-
-      <th></th>
-    </tr>
   </thead>
   <tbody>
-<%= for review <- @reviews do %>
-    <tr>
-      <td><%= review.name %></td>
-      <td><%= review.comment %></td>
-      <td><%= review.rating %></td>
-      <td><%= review.restaurant_id %></td>
+    <%= if @reviews do %>
+      <%= for review <- @reviews do %>
+        <div class="container">
+          <div class="col-sm-6 mb-3">
+            <div class="card text-black yeet mb-3 ">
+              <h5 class="card-header"><%= review.name %></h5>
+              <div class="card-body">
+                <p class="card-text"><strong>Rating:</strong> <%= review.rating %></p>
+                <p class="card-text"><%= review.comment %></p>
+                <p class="card-text"><strong>Author:</strong> <%= link(EatOut.Users.get_user(EatOut.Reviews.get_review(review.id).user_id).name, to: Routes.user_path(@conn, :show, EatOut.Reviews.get_review(review.id).user_id)) %> </p>
+                <%= if @current_user.id == review.user_id do %>
+                  <%= link "Edit", to: Routes.review_path(@conn, :edit, review.id), class: "btn btn-danger" %> 
+                <% end %>
+                <p class="card-text"></p>
 
-      <td>
-        <%= link "Show", to: Routes.review_path(@conn, :show, review) %>
-        <%= link "Edit", to: Routes.review_path(@conn, :edit, review) %>
-        <%= link "Delete", to: Routes.review_path(@conn, :delete, review), method: :delete, data: [confirm: "Are you sure?"] %>
-      </td>
-    </tr>
-<% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      No reviews.
+    <% end %>
   </tbody>
 </table>
 
-<span><%= link "New Review", to: Routes.review_path(@conn, :new) %></span>
+<p><%= link "New Review", to: Routes.review_path(@conn, :new, rest_id: @rest_id, rest_name: @rest_name), class: "btn btn-lg btn-primary" %></p>
+<p><%= link "Back", to: Routes.location_path(@conn, :home), class: "btn btn-danger" %></p>

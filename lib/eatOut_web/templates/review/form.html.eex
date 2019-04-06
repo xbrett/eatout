@@ -5,23 +5,44 @@
     </div>
   <% end %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
+  <div class="form-group">
+    <%= label f, :title %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  </div>
 
-  <%= label f, :comment %>
-  <%= text_input f, :comment %>
-  <%= error_tag f, :comment %>
+  <div class="form-group">
+    <%= label f, :comment %>
+    <%= textarea f, :comment %>
+    <%= error_tag f, :comment %>
+  </div>
 
-  <%= label f, :rating %>
-  <%= number_input f, :rating %>
-  <%= error_tag f, :rating %>
+  <div class="form-group">
+    <%= label f, :rating %>
+    <%= select f, :rating, [1,2,3,4,5] %>
+    <%= error_tag f, :rating %>
+  </div>
 
-  <%= label f, :restaurant_id %>
-  <%= text_input f, :restaurant_id %>
-  <%= error_tag f, :restaurant_id %>
+  <div class="form-group hidden" style="display: none">
+    <%= label f, :restaurant_id %>
+    <%= text_input f, :restaurant_id, value: @conn.query_params["rest_id"] || @rest_id %>
+    <%= error_tag f, :restaurant_id %>
+  </div>
+
+  <div class="form-group hidden" style="display: none">
+    <%= label f, :restaurant_name %>
+    <%= text_input f, :restaurant_name, value: @conn.query_params["rest_name"] || EatOut.Reviews.get_restaurant_name(@rest_id) %>
+    <%= error_tag f, :restaurant_name %>
+  </div>
+
+  <div class="form-group hidden" style="display: none">
+    <%= label f, :user_id %>
+    <%= number_input f, :user_id, value: @current_user.id %>
+    <%= error_tag f, :user_id %>
+  </div>
+
 
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save", class: "btn btn-primary " %>
   </div>
 <% end %>

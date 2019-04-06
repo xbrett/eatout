@@ -33,12 +33,12 @@ defmodule EatOut.Friends do
     query1 = from f in Friend,
                 where: f.friender_id == ^id or f.friendee_id == ^id,
                 select: {f.friender_id, f.friendee_id}
-    friends = Repo.all(query1)    
+    friends = Repo.all(query1)
 
-    # List of tuple -> into list 
+    # List of tuple -> into list
     # Make a list of user id that are not friends with given id
-    loi = List.foldl(friends, [], fn x, acc -> 
-      if elem(x, 0) != id do 
+    loi = List.foldl(friends, [], fn x, acc ->
+      if elem(x, 0) != id do
         [elem(x, 0)] ++ acc
       end
       if elem(x, 1) != id do
@@ -70,6 +70,8 @@ defmodule EatOut.Friends do
 
   """
   def get_friend!(id), do: Repo.get!(Friend, id)
+
+  def get_friend(id), do: Repo.get(Friend, id)
 
   @doc """
   Creates a friend.

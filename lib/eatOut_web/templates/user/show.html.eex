@@ -1,17 +1,39 @@
-<h1><%= @user.name %></h1>
+<h1><strong><%= @user.name %></strong></h1>
 
-<div>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</div>
+<h3>
+  <strong>Email: </strong> <%= @user.email %>
+  <%= if @current_user.id == @user.id do %>
+    <span><%= link "Edit Profile", to: Routes.user_path(@conn, :edit, @user), class: "btn btn-danger" %></span>
+  <% else %>
+    <span><%= link "Show Friends", to: Routes.friend_path(@conn, :show, @user.id), class: "btn btn-primary" %></span>
+  <% end %> 
+</h3>
 
-<ul>
-  <li>
-    <strong> Reviews: </strong>
-  </li>
-</ul>
+<h3> -- Reviews -- </h3>
 
-<span><%= link "Edit Profile", to: Routes.user_path(@conn, :edit, @user), class: "btn btn-primary" %></span>
+<%= if @reviews do %>
+  <%= for review <- @reviews do %>
+    <div class="container">
+      <div class="col-sm-6 mb-3">
+        <div class="card text-black yeet mb-3 ">
+          <h5 class="card-header"><%= review.restaurant_name %></h5>
+          <div class="card-body">
+            <p class="card-text"><strong>Title: </strong><%= review.name %></p>
+            <p class="card-text"><strong>Rating: </strong><%= review.rating %></p>
+            <p class="card-text"><strong>Comment: </strong><%= review.comment %></p>
+            <%= if @current_user.id == @user.id do %>
+              <span><%= link "Edit", to: Routes.review_path(@conn, :edit, review), class: "btn btn-danger" %></span>
+            <% end %> 
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  No restaurants.
+<% end %>
+
 <!--
 <span><%= link "Back", to: Routes.user_path(@conn, :index), class: "btn btn-danger" %></span>
 -->
@@ -24,5 +46,4 @@
 	Show the list of friends
 -->
 
-<span><%= link "Add Friend", to: Routes.friend_path(@conn, :new), class: "btn btn-primary" %></span>
 

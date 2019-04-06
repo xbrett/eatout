@@ -37,6 +37,23 @@ defmodule EatOut.Reviews do
   """
   def get_review!(id), do: Repo.get!(Review, id)
 
+  def get_review(id), do: Repo.get(Review, id)
+
+  def get_reviews_for_restaurant(rest_id) do
+    query = from r in Review, where: r.restaurant_id == ^rest_id
+    Repo.all(query)
+  end
+
+  def get_reviews_for_user(user_id) do
+    query = from r in Review, where: r.user_id == ^user_id
+    Repo.all(query)
+  end
+
+  def get_restaurant_name(rest_id) do
+    query = from r in Review, where: r.restaurant_id == ^rest_id, select: r.restaurant_name, limit: 1
+    Repo.all(query)
+  end
+
   @doc """
   Creates a review.
 

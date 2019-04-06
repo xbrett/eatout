@@ -1,5 +1,5 @@
-<h1>New Review</h1>
+<h1><strong>Review: </strong><%= @conn.query_params["rest_name"] %> </h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.review_path(@conn, :create)) %>
 
-<span><%= link "Back", to: Routes.review_path(@conn, :index) %></span>
+<p><%= link "Back", to: Routes.location_path(@conn, :home), class: "btn btn-danger" %></p>

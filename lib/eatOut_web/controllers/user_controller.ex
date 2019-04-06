@@ -3,6 +3,7 @@ defmodule EatOutWeb.UserController do
 
   alias EatOut.Users
   alias EatOut.Users.User
+  alias EatOut.Reviews
 
   def index(conn, _params) do
     users = Users.list_users()
@@ -29,7 +30,8 @@ defmodule EatOutWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    reviews = Users.list_reviews(id)
+    render(conn, "show.html", user: user, reviews: reviews)
   end
 
   def edit(conn, %{"id" => id}) do

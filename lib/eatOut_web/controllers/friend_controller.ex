@@ -27,13 +27,13 @@ defmodule EatOutWeb.FriendController do
   end
 
   def show(conn, %{"id" => id}) do
-    friend = Friends.get_friend!(id)
+    friend = Friends.get_friend(id)
     render(conn, "show.html", friend: friend)
   end
 
   def edit(conn, %{"id" => id}) do
     friend = Friends.get_friend!(id)
-    changeset = Friends.change_friend(friend)    
+    changeset = Friends.change_friend(friend)
     render(conn, "edit.html", friend: friend, changeset: changeset)
   end
 

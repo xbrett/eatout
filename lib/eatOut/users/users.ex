@@ -7,6 +7,7 @@ defmodule EatOut.Users do
   alias EatOut.Repo
 
   alias EatOut.Users.User
+  alias EatOut.Reviews.Review
 
   @doc """
   Returns the list of users.
@@ -26,8 +27,12 @@ defmodule EatOut.Users do
 
   """
   def list_others(id) do
-    query  = from u in User,
-                where: u.id != ^id
+    query  = from u in User, where: u.id != ^id
+    Repo.all(query)
+  end
+
+  def list_reviews(id) do
+    query = from r in Review, where: r.user_id == ^id
     Repo.all(query)
   end
 
@@ -58,6 +63,21 @@ defmodule EatOut.Users do
       {:ok, user} -> user
       _else       -> nil
     end
+  end
+
+  def get_user_for_review(review_id) do
+    # select u.name
+    # from u User join r Review on u.user_id = r.user_id
+    # where r.review_id == ^review_id
+
+    # query = from u in User, join: r in Review, where: u.id == r.user_id, where: r.id == ^review_id, select: u.name
+
+    review = Repo.get_by(Review, id: review_id)
+    #query = from r in Review, where: r.review_id == ^review_id, select: r.user_id
+    query = from u in User, where: u.id == ^review["user_id"], select: u.name
+    results = Repo.all(query)
+    IO.inspect(results)
+    results
   end
 
   @doc """

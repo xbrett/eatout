@@ -5,9 +5,6 @@ defmodule EatOutWeb.LocationController do
 
   def create(conn, %{"lat" => lat, "long" => long}) do
 
-    IO.inspect(lat)
-    IO.inspect(long)
-
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     <> "location="
     <> to_string(lat) <> ","
@@ -55,9 +52,13 @@ defmodule EatOutWeb.LocationController do
           newbody = Jason.decode!(body)
           results = newbody["results"]
           results = Enum.map(results, fn result ->
-            result["name"]
+            %{
+              id: result["id"],
+              name: result["name"],
+              price: result["price_level"],
+              address: result["vicinity"]
+            }
           end)
-          IO.inspect(results);
           render(conn, "home.html", restaurants: results)
         {:ok, %HTTPoison.Response{status_code: 404}} ->
           render(conn, "home.html", restaurants: [])
@@ -65,7 +66,7 @@ defmodule EatOutWeb.LocationController do
           render(conn, "home.html", restaurants: [])
       end
     else
-      render(conn, "home.html", msg: [])
+      render(conn, "home.html", restaurants: [])
     end
   end
 
