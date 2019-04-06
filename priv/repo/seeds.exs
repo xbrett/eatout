@@ -15,5 +15,5 @@
 alias EatOut.Repo
 alias EatOut.Users.User
 
-Repo.insert!(%User{email: "le.b@husky.neu.edu", name: "Binh", pw_hash: "12345"})
-Repo.insert!(%User{email: "test@example.com", name: "Test Subject 1", pw_hash: "12345"})
+Repo.insert!(%User{email: "le.b@husky.neu.edu", name: "Binh", password_hash: "12345"})
+Repo.insert!(%User{email: "test@example.com", name: "Test Subject 1", password_hash: "12345"})

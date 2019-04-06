@@ -5,7 +5,7 @@ defmodule EatOut.Users.User do
   schema "users" do
     field :email, :string
     field :name, :string
-    field :pw_hash, :string
+    field :password_hash, :string
     has_many :reviews, EatOut.Reviews.Review, foreign_key: :user_id
 
     timestamps()
@@ -14,8 +14,8 @@ defmodule EatOut.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :pw_hash])
+    |> cast(attrs, [:name, :email, :password_hash])
     |> validate_format(:email, ~r/@/)
-    |> validate_required([:name, :email, :pw_hash])
+    |> validate_required([:name, :email, :password_hash])
   end
 end

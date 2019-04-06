@@ -16,6 +16,7 @@ defmodule EatOutWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+
     case Users.create_user(user_params) do
       {:ok, user} ->
         conn

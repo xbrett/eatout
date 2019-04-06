@@ -1,4 +1,4 @@
-<h1><%=  @conn.query_params["rest_name"] %></h1>
+<h1><%= %></h1>
 
 <table>
   <thead>

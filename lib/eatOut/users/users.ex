@@ -59,6 +59,7 @@ defmodule EatOut.Users do
 
   def get_and_auth_user(email, password) do
     user = get_user_by_email(email)
+    IO.inspect(user)
     case Comeonin.Argon2.check_pass(user, password) do
       {:ok, user} -> user
       _else       -> nil
@@ -92,10 +93,10 @@ defmodule EatOut.Users do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(%{"name" => name, "email" => email, "pw_hash" => password}) do
+  def create_user(%{"name" => name, "email" => email, "password_hash" => password}) do
     pswd = Argon2.hash_pwd_salt(password)
     %User{}
-    |> User.changeset(%{"name" => name, "email" => email, "pw_hash" => pswd})
+    |> User.changeset(%{"name" => name, "email" => email, "password_hash" => pswd})
     |> Repo.insert()
   end
 

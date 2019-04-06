@@ -2,7 +2,10 @@ defmodule EatOutWeb.SessionController do
   use EatOutWeb, :controller
 
   def create(conn, %{"email" => email, "password" => password}) do
+    IO.inspect(email)
+    IO.inspect(password)
     user = EatOut.Users.get_and_auth_user(email, password)
+    IO.inspect(user)
     if user do
       conn
       |> put_session(:user_id, user.id)

@@ -20,8 +20,8 @@
 <%# TODO: Verify password to set a new one?%>
   <div class="form-group">
     <%= label f, :password %>
-    <%= password_input f, :pw_hash %>
-    <%= error_tag f, :pw_hash %>
+    <%= password_input f, :password_hash %>
+    <%= error_tag f, :password_hash %>
   </div>
 
   <div class="form-group">
