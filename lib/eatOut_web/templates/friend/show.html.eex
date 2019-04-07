@@ -1,20 +1,31 @@
-<h1><%= %></h1>
+<h1><%= EatOut.Users.get_user(@display_id).name %>'s Friends</h1>
 
-<table>
+<table class="table table-striped table-primary table-hover">
   <thead>
+    <tr>
+      <td> <strong>Name</strong></td>
+    </tr>
   </thead>
   <tbody>
 
-    <%= if @friend do %>
       <%= for friend <- @friends do %>
-          <tr>
-            <td><%= EatOut.Users.get_user(friend.friendee_id).name %></td>
-          </tr>
-      <% end %>
-    <% else %>
-      <h2>User has no friends.</h2>
-    <% end %>
+        <%= if friend.confirmed do %>
+          <%= if friend.friender_id == String.to_integer(@display_id) do %>
+            <tr>
+              <td><%= EatOut.Users.get_user!(friend.friendee_id).name %></td>
+              <td><%= link "Profile", to: Routes.user_path(@conn, :show, friend.friendee_id), class: "btn btn-primary" %></td>
+            </tr>
+          <% end %>
+          <%= if friend.friendee_id == String.to_integer(@display_id) do %>
+            <tr>
+              <td><%= EatOut.Users.get_user!(friend.friender_id).name %></td>
+              <td><%= link "Profile", to: Routes.user_path(@conn, :show, friend.friendee_id), class: "btn btn-primary" %></td>
+
+            </tr>
+          <% end %> 
+        <% end %>
+      <% end %> 
   </tbody>
 </table>
 
-<span><%= link "Back", to: Routes.location_path(@conn, :home) %></span>
+<span><%= link "Back", to: Routes.user_path(@conn, :show, @display_id), class: "btn btn-danger" %></span>

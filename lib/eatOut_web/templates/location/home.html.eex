@@ -13,6 +13,7 @@
                 <div class="card text-black yeet mb-3 ">
                   <h5 class="card-header"><%= rest.name %></h5>
                   <div class="card-body">
+                    <p class="card-text">Avg. Rating: <%= EatOut.Reviews.get_avg_rating_for_restaruant(rest.id) || "(No reviews)" %></p>
                     <p class="card-text">Address: <%= rest.address %></p>
                     <%= if rest.price do %>
                       <p class="card-text">Price Range: <%= String.duplicate("$ ", rest.price) %></p>

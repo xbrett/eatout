@@ -59,7 +59,6 @@ defmodule EatOut.Users do
 
   def get_and_auth_user(email, password) do
     user = get_user_by_email(email)
-    IO.inspect(user)
     case Comeonin.Argon2.check_pass(user, password) do
       {:ok, user} -> user
       _else       -> nil

@@ -127,13 +127,13 @@ function createCookie(cookieName, cookieValue) {
 function getLocation() {
   console.log(document.cookie);
   if (document.cookie.includes("long=") && document.cookie.includes("lat=")) {
-    console.log("case1");
+    //console.log("case1");
     return
   } else if (navigator.geolocation) {
-    console.log("case2");
+    //console.log("case2");
     navigator.geolocation.getCurrentPosition(showPosition);
   } else { 
-    console.log("no geolocator");
+    //console.log("no geolocator");
     return null
   }
 }
@@ -141,6 +141,6 @@ function getLocation() {
 function showPosition(position) {
   createCookie("lat", "" + position.coords.latitude);
   createCookie("long", "" + position.coords.longitude);
-  console.log(document.cookie);
+  //console.log(document.cookie);
   location.reload();
 }

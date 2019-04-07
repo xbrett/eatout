@@ -75,6 +75,18 @@ defmodule EatOut.Friends do
 
   def get_friend(id), do: Repo.get(Friend, id)
 
+  # def get_friends_for_user(id) do
+  #   query1 = from f in Friend,
+  #               where: f.friender_id == ^id
+  #               select: f.friendee_id
+  #   Repo.all(query1)
+
+  #   query1 = from f in Friend,
+  #               where: f.friender_id == ^id
+  #               select: f.friendee_id
+
+  # end
+
   @doc """
   Creates a friend.
 

@@ -16,7 +16,7 @@ defmodule EatOutWeb.FriendController do
 
   def create(conn, %{"friend" => friend_params}) do
     case Friends.create_friend(friend_params) do
-      {:ok, friend} ->
+      {:ok, _friend} ->
         conn
         |> put_flash(:info, "Friend request sent successfully.")
         |> redirect(to: Routes.friend_path(conn, :index))
@@ -27,8 +27,9 @@ defmodule EatOutWeb.FriendController do
   end
 
   def show(conn, %{"id" => id}) do
-    friend = Friends.get_friend(id)
-    render(conn, "show.html", friend: friend)
+    friends = Friends.list_friends()
+    IO.inspect(friends)
+    render(conn, "show.html", friends: friends, display_id: id)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -46,7 +47,6 @@ defmodule EatOutWeb.FriendController do
           conn
           |> put_flash(:info, "You are now official friends.")
           |> redirect(to: Routes.friend_path(conn, :index))
-
         {:error, %Ecto.Changeset{} = changeset} ->
           render(conn, "edit.html", friend: friend, changeset: changeset)
       end

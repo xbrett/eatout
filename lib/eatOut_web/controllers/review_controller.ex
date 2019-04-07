@@ -9,15 +9,13 @@ defmodule EatOutWeb.ReviewController do
     render(conn, "index.html", reviews: reviews)
   end
 
-  def new(conn, _fd) do
+  def new(conn, _params) do
     changeset = Reviews.change_review(%Review{})
-    #assign(conn, :rest_id, rest_id)
     render(conn, "new.html", changeset: changeset)
   end
 
   def new(conn, %{"rest_id" => rest_id}) do
     changeset = Reviews.change_review(%Review{})
-    #assign(conn, :rest_id, rest_id)
     render(conn, "new.html", changeset: changeset, rest_id: rest_id)
   end
 
