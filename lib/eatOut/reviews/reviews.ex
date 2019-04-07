@@ -54,6 +54,21 @@ defmodule EatOut.Reviews do
     Repo.all(query)
   end
 
+  def get_avg_rating_for_restaruant(rest_id) do
+    query = from r in Review, where: r.restaurant_id == ^rest_id, select: r.rating
+    ratings = Repo.all(query)
+    count = length(ratings)
+
+    case count do
+      0 -> nil
+      _ ->
+        ratings
+        |> List.foldl(0, fn x, acc -> x + acc end)
+        |> Decimal.div(count)
+        |> Decimal.round(1)
+      end
+  end
+
   @doc """
   Creates a review.
 
