@@ -16,6 +16,7 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 import socket from "./socket"
 
+
 let channelChatId = window.channelChatId;
 console.log(channelChatId)
 
@@ -37,7 +38,9 @@ if (channelChatId) {
 	let ul = document.getElementById("msg-list");        // list of messages.
 	let name = document.getElementById("name");         // name of message sender
 	let msg = document.getElementById("msg");          // element storing message
+	let send_btn = document.getElementById("send_btn"); // send button
 
+	// Enter pressing
 	msg.addEventListener("keypress", function (ev) {
 		if (ev.keyCode == 13 && msg.value.length > 0) { // enter pressed and message is not empty
 	    	channel.push("shout", { 		// send the message to the server
@@ -49,12 +52,69 @@ if (channelChatId) {
 	    	msg.value = "";         // reset the message input field.
 	  	}
 	});
+	// Send button pressed
+	send_btn.addEventListener("click", function() {
+		if (msg.value.length > 0) {
+			channel.push("shout", { 
+	      		name: name.innerHTML,
+	      		message: msg.value,
+	      		sender_id: sender_id,
+	      		receiver_id: receiver_id
+	    	});
+	    	msg.value = "";
+		}
+		// let ev = jQuery.Event("keypress");
+		// ev.keyCode = 13;
+		// $("#msg").trigger(ev);
+	});
 }
-
 
 import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery; // Bootstrap requires a global "$" object.
 import "bootstrap";
+
+
+// $(function () {
+
+// 	// Adding a new friend 
+// 	$("#add_friend_btn").click((ev) => {
+		
+// 		console.log(socket);
+// 		let friend = $("#add_friend").find(":selected").val(); // get the id of the person to add
+// 		//console.log(friend);
+// 		let me = $("#add_friend_btn").data("sender-id"); 		// get the id of the sender
+// 		//console.log(me);
+
+// 		if ($("#add_friend").find(":selected").val() > 0) {
+// 			//console.log("yo");
+// 			let new_fs = JSON.stringify({
+// 				friend: {
+// 					friender_id: me,
+// 					friendee_id: friend,
+// 					confirmed: false
+// 				},
+// 			});
+// 			console.log(new_fs);
+
+// 			$.ajax("/ajax/friends", {
+// 				method: "post",
+// 				dataType: "json",
+// 				contentType: "application/json; charset=UTF-8",
+// 				data: new_fs,
+// 				success: (resp) => {
+// 					location.reload();
+// 					console.log(123);
+// 				},
+// 			});
+
+// 		}
+
+// 	});
+
+
+
+// });
+
 
 window.onload = (ev) => {
   getLocation();

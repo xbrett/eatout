@@ -36,17 +36,19 @@ defmodule EatOut.Friends do
     friends = Repo.all(query1)
 
     # List of tuple -> into list
-    # Make a list of user id that are not friends with given id
-    loi = List.foldl(friends, [], fn x, acc ->
-      if elem(x, 0) != id do
+    # Make a list of user id that are friends with given id
+    loi = List.foldl(friends, [id], fn x, acc ->
+      acc = if elem(x, 0) != id do
         [elem(x, 0)] ++ acc
+      else 
+        acc
       end
-      if elem(x, 1) != id do
+      acc = if elem(x, 1) != id do
         [elem(x, 1)] ++ acc
+      else 
+        acc
       end
     end)
-    loi = loi ++ [id]
-
     # Find the users that are not in friends
     query2 = from u in User,
                 where: not u.id in ^loi

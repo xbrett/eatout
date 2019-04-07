@@ -2,7 +2,9 @@
 <script>window.receiver_id = "<%= @receiver_id %>"</script>
 <script>window.sender_id = "<%= @current_user.id %>"</script>
 
-<ul id='msg-list' class='list-group' style='list-style: none; min-height:500px; padding: 10px;'>
+<h1><%= EatOut.Users.get_user!(@receiver_id).name %></h1>
+
+<ul id='msg-list' class='list-group border border-primary bg-primary' style='list-style: none; overflow-y: scroll; height:500px; padding: 10px; margin-bottom: 5px'>
 	<%= for chat <- @chats do %>
 		<%= if chat.sender_id == @current_user.id || chat.receiver_id == @current_user.id do %>
 			<% chat_sender = EatOut.Users.get_user!(chat.sender_id).name %>
@@ -11,13 +13,14 @@
 	<% end %>
 </ul>
 
-<div class="row">
-  <div class="col-xs-3">
+<div>
+  <div class="d-none">
     <strong><p id="name" style='padding: 5px'><%= @current_user.name %></p></strong>
   </div>
   <div class="form-group">
-    <input type="text" id="msg" class="form-control" placeholder="Your Message">
+    <input type="text" id="msg" class="pt-3 form-control" placeholder="Your Message">
   </div>
+  <button id="send_btn" class="btn btn-success float-right">Send</button>
 </div>
 
 

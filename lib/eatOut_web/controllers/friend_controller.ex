@@ -38,24 +38,39 @@ defmodule EatOutWeb.FriendController do
   end
 
   def update(conn, %{"id" => id, "friend" => friend_params}) do
-    friend = Friends.get_friend!(id)
-    case Friends.update_friend(friend, friend_params) do
-      {:ok, friend} ->
-        conn
-        |> put_flash(:info, "New friend added successfully.")
-        |> redirect(to: Routes.friend_path(conn, :index))
+    friend = Friends.get_friend(id)
+    if (friend != nil) do 
+      EatOut.Chats.delete_chat_history(friend.friender_id, friend.friendee_id)
+      case Friends.update_friend(friend, friend_params) do
+        {:ok, friend} ->
+          conn
+          |> put_flash(:info, "You are now official friends.")
+          |> redirect(to: Routes.friend_path(conn, :index))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", friend: friend, changeset: changeset)
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, "edit.html", friend: friend, changeset: changeset)
+      end
+    else # there is no friend request anymore
+      conn
+      |> put_flash(:info, "User does not want to be friends anymore.")
+      |> redirect(to: Routes.friend_path(conn, :index))
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    friend = Friends.get_friend!(id)
-    {:ok, _friend} = Friends.delete_friend(friend)
+    friend = Friends.get_friend(id)
+    if (friend != nil) do
+      # Delete chat history as well
+      EatOut.Chats.delete_chat_history(friend.friender_id, friend.friendee_id)
+      {:ok, _friend} = Friends.delete_friend(friend)
 
-    conn
-    |> put_flash(:info, "Friend deleted successfully.")
-    |> redirect(to: Routes.friend_path(conn, :index))
+      conn
+      |> put_flash(:info, "Friend deleted successfully.")
+      |> redirect(to: Routes.friend_path(conn, :index))
+    else # no friend found
+      conn
+      |> put_flash(:info, "Succesfully.")
+      |> redirect(to: Routes.friend_path(conn, :index))
+    end
   end
 end

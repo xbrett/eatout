@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= label f, :Person %>
-    <%= select f, :friendee_id, Enum.map(EatOut.Users.list_others(@current_user.id), &{&1.email, &1.id}) %>
+    <%= select f, :friendee_id, Enum.map(EatOut.Friends.list_not_friends(@current_user.id), &{&1.email, &1.id}), class: "form-control"%>
     <%= error_tag f, :friendee_id %>
   </div>
 
@@ -26,4 +26,7 @@
   <div>
     <%= submit "Send Friend Request", class: "btn btn-primary" %>
   </div>
+
 <% end %>
+
+

@@ -11,6 +11,13 @@ defmodule EatOutWeb.Router do
 
   end
 
+  pipeline :ajax do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug EatOutWeb.Plugs.FetchSession # TODO: "FetchUser"
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -26,6 +33,11 @@ defmodule EatOutWeb.Router do
     get "/reviews/restaurant/:rest_id/:rest_name", ReviewController, :reviews
     resources "/chats", ChatController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
+    resources "/friends", FriendController
+  end
+
+  scope "/ajax", EatOutWeb do
+    pipe_through :ajax
     resources "/friends", FriendController
   end
 

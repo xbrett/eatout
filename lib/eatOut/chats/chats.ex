@@ -36,6 +36,20 @@ defmodule EatOut.Chats do
   end
 
   @doc """
+  Delete chat history when of two given people
+
+  """
+  def delete_chat_history(p1_id, p2_id) do
+    query = from c in Chat,
+            where: (^p1_id == c.sender_id and ^p2_id == c.receiver_id)
+                    or (^p2_id == c.sender_id and ^p1_id == c.receiver_id)
+    chat_history = Repo.all(query)
+    IO.inspect(chat_history)
+    Enum.each(chat_history, fn x -> Repo.delete(x) end)
+  end
+
+
+  @doc """
   Gets a single chat.
 
   Raises `Ecto.NoResultsError` if the Chat does not exist.

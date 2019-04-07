@@ -16,6 +16,7 @@ defmodule EatOut.Users.User do
     user
     |> cast(attrs, [:name, :email, :password_hash])
     |> validate_format(:email, ~r/@/)
+    |> unique_constraint(:email)
     |> validate_required([:name, :email, :password_hash])
   end
 end
