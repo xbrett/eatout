@@ -46,7 +46,8 @@ defmodule EatOut.MixProject do
       {:comeonin, "~> 4.1"},
       {:argon2_elixir, "~> 1.3"},
       {:httpoison, "~> 1.5"},
-      {:cowlib, "~> 2.7.0", override: true}
+      {:cowlib, "~> 2.7.0", override: true},
+      {:distillery, "~> 2.0"},
 
     ]
   end
