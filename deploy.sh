@@ -14,8 +14,6 @@ mix deps.get
 mix compile
 (cd assets && npm install)
 (cd assets && webpack --mode production)
-mix ecto.create
-mix ecto.migrate
 mix phx.digest
 
 echo "Generating release..."
