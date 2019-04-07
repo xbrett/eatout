@@ -27,6 +27,7 @@
         <td style="width: 25%"><%= EatOut.Users.get_user(friend.friender_id).name %></td>
         <td style="width: 25%">
           <%= link "Chat", to: Routes.chat_path(@conn, :index, chat_id: chat_id, receiver_id: friend.friender_id), class: "btn btn-primary" %>
+          <%= link "Profile", to: Routes.user_path(@conn, :show, friend.friendee_id), class: "btn btn-primary" %>
           <%= link "Unfriend", to: Routes.friend_path(@conn, :delete, friend), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
         </td>
       </tr>
